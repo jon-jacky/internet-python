@@ -344,4 +344,84 @@ Must close cmd window to kill server, it doesn't respond to ^C
 Dropbox server version currently just responds "foobar", not with echo, fix.
 Now it works as it should.  Commit and push.
 
+C:\Users\jon\Documents\internet-python\sockets>git commit -a -m "week1_echo_clie
+nt,server.py now working as intended, fix problems in dropbox versions"
+warning: LF will be replaced by CRLF in sockets/week1_echo_client.py
+warning: LF will be replaced by CRLF in sockets/week1_echo_server.py
+[master warning: LF will be replaced by CRLF in sockets/week1_echo_client.py
+warning: LF will be replaced by CRLF in sockets/week1_echo_server.py
+f9ffb69] week1_echo_client,server.py now working as intended, fix problems in dr
+opbox versions
+warning: LF will be replaced by CRLF in sockets/week1_echo_client.py
+warning: LF will be replaced by CRLF in sockets/week1_echo_server.py
+ 3 files changed, 20 insertions(+), 7 deletions(-)
 
+C:\Users\jon\Documents\internet-python\sockets>git push
+Counting objects: 13, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (7/7), 939 bytes, done.
+Total 7 (delta 3), reused 0 (delta 0)
+To git@github.com:jon-jacky/internet-python.git
+   dac45d7..f9ffb69  master -> master
+
+Again, this LF -> CRLF warning ...  Will that be a problem on VM?
+
+Now log into VM, git clone, and run the echo server there.
+
+putty jon@block115406-urm.blueboxgrid.com
+
+Using username "jon".
+jon@block115406-urm.blueboxgrid.com's password:
+Linux block115406-urm.blueboxgrid.com 2.6.18-194.8.1.el5.028stab070.5 #1 SMP Fri Sep 17 19:10:36 MSD 2010 i686 GNU/Linux
+Ubuntu 10.04.1 LTS
+
+Welcome to Ubuntu!
+ * Documentation:  https://help.ubuntu.com/
+
+*** System restart required ***
+Last login: Mon Jan 17 00:16:37 2011 from 184.234.233.107
+jon@block115406-urm:~$ ls -a
+. .. .bash_history (... etc. ...)
+
+What's with "system restart" - ?
+
+Right-click in top bar of window to get menu, 
+in Settings -> appearance -> font, change from 10pt to 14pt.
+
+Get pop-up notice: two files removed from dropbox.  They are they
+week1_echo_client/server.py - !?   did I move them out rather than copy
+them?  I'm pretty sure I copied them...  Oh, forget it, there is also 
+
+https://github.com/briandorsey/uwpython_web/blob/master/week01/echo_client.py
+etc.  - which looks right.
+
+Ok, it looks like what I want to do on vm is:
+
+ git clone https://github.com/jon-jacky/internet-python/ internet-python
+
+There doesn't seem to be any way to cut from/paste to putty window.
+
+Try it.  
+
+fatal: https://github.com/jon-jacky/internet-python/info/refs not found: did you run git update-server-info on the server?
+
+Should this be necessary to do git clone?  Oh, but maybe that's not
+the right URL.  According to https://git.wiki.kernel.org/index.php/GitCheatSheet
+I should be cloning the hole repository URL, ends with .git
+
+$ git clone https://github.com/jon-jacky/internet-python.git
+Initialized empty Git repository in /home/jon/internet-python/.git/
+...
+.., done.
+
+Yes, now I have internet-python directory with expected contents.
+Now echo server has localhost hard coded - open another putty window to 
+vm.  Yes, it works.
+
+Now on HP localhost, make sum_server and sum_client based on echo_...
+
+Looked at http://groups.google.com/group/uwpython2010/topics?hl=en
+lots of people are having difficulties with dropbox and git.
+
+In local git, .../internet-python/sockets/ on HP, make sum_server,client.py
