@@ -286,4 +286,47 @@ Total 8 (delta 1), reused 0 (delta 0)
 To git@github.com:jon-jacky/internet-python.git
    6466d18..fc2cf83  master -> master
 
-Now look on web page
+Now look on web page, yup it's there.
+
+now mkdir sockets and copy dropbox files:
+
+jon@LOCKE ~/Documents/internet-python/sockets (master)
+$ cp ~/Dropbox/uwpython/week1/*.py .
+
+jon@LOCKE ~/Documents/internet-python/sockets (master)
+$ ls
+week1_echo_client.py  week1_echo_server.py
+
+Now add sockets directory
+
+jon@LOCKE ~/Documents/internet-python (master)
+$ git add sockets
+warning: LF will be replaced by CRLF in sockets/week1_echo_client.py
+warning: LF will be replaced by CRLF in sockets/week1_echo_server.py
+
+Oh dear, well, let's commit.
+
+jon@LOCKE ~/Documents/internet-python (master)
+$ git commit -a -m "add sockets directory with echo client and server from drop
+box"
+[master d5e48a7] add sockets directory with echo client and server from dropbox
+warning: LF will be replaced by CRLF in sockets/week1_echo_client.py
+warning: LF will be replaced by CRLF in sockets/week1_echo_server.py
+ 3 files changed, 71 insertions(+), 0 deletions(-)
+ create mode 100644 sockets/week1_echo_client.py
+ create mode 100644 sockets/week1_echo_server.py
+
+jon@LOCKE ~/Documents/internet-python (master)
+$ git push
+Counting objects: 10, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (7/7), 1.29 KiB, done.
+Total 7 (delta 1), reused 0 (delta 0)
+To git@github.com:jon-jacky/internet-python.git
+   fc2cf83..d5e48a7  master -> master
+
+Next, clone on vm, run server there, run client in local git master.
+
+see if svn is running on vm, so we can do svn log pager there.
+ 
