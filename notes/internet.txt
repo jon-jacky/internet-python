@@ -1,0 +1,217 @@
+% notes on Brian's Python + Intenet course
+
+16 Jan 2010
+
+At Tully's 4th & Union w/ Brian, Jon Poland, Peter Conerly, Gregg
+Toth, new student: Tim Salazar.
+
+Create dropbox account
+
+firstname: Jonathan
+lastname: Jacky
+email: jon@u.washington.edu
+pw: 100153nbj
+Computer name: locke
+
+2GB free
+Typical setup
+
+https://www.dropbox.com
+
+Puts dropbox notification item on my toolbar, in lrc
+So I click on it, it says starting, apparently hangs....
+
+Creates C:\Users\jon\dropbox  with some files and folders
+
+Ok, how do I get the files for the class? What's the folder?
+
+Dropbox help at http://www.dropbox.com/help/16
+
+Now what about setting up a github account, using svn
+
+Github sort of supports svn, but it seems there are limitations.
+
+Just set up github acct on their web page.
+
+https://github.com/signup/free
+
+Username jon-jacky
+email jon@u.washington.edu
+password 100153nbj
+
+Created public profile
+
+Dashboard is at https://github.com/, help at https://help.github.com/
+Nothing about svn on help page.
+
+I installed msysgit months ago - I have git bash shell icon on my toolbar, llc
+Open it  - seems to be full-featured bash shell.
+
+I have downloads\git with msysGit-netinstall...exe from 5/13/2010
+
+Brian got me a VM at bluebox, see email today (16 Jan 2010)
+
+username: jon
+password: jon@uwe
+hostname: block115406-urm.blueboxgrid.com
+
+Use putty to connect, Tully's
+Connect to Brian's portable wifi-over-cellphone, name giraffe, pw crazyawesome
+Now I can connect to my vm.
+
+Just got Brian's invite to dropbox, accept.
+
+https://www.dropbox.com/home/uwpython#/week1:::28792857
+
+Yes, now I also have C:\Users\jon\dropbox\uwpython\week1 etc.
+
+Back to git ...  follow directions at http://help.github.com/msysgit-key-setup/
+
+I have a ~/.ssh, known_hosts contains seattle.cs.washington.edu and
+blackbox.cs.washington.edu
+
+but nothing else - no id_rsa
+
+I didn't select a passphrase, just hit return.
+
+key name is tekkub@gmail.com
+
+Get "successfully authenticated" message.
+
+Okay, I guess I want dirs on VM for various projects, want github repo
+to match dirs.   
+
+Next, setting username etc: http://help.github.com/git-email-settings/
+
+In the git bash shell:
+
+jon@LOCKE ~
+$ git config --global user.name "jon-jacky"
+
+jon@LOCKE ~
+$ git config --global user.email "jon@u.washington.edu"
+
+On github create repository page: https://github.com/repositories/new
+
+Project Name: internet-python
+
+Description: 
+Projects for the course, Internet Programming in Python, Winter 2011.
+
+Homepage URL: (left blank)
+
+Who has access? [X] Anyone
+
+
+It creates repository
+
+git@github.com:jon-jacky/internet-python-.git
+
+What's with the hyphen '-' at the end?  I didn't type this in my repo name!
+Argh, there was an extra space at the end. 
+
+Okay, let's delete this and do it over: http://help.github.com/deleting-a-repo/
+
+Yes, now it's: git@github.com:jon-jacky/internet-python.git
+
+Note that there's an option to import an svn repo.
+
+Now make local working directory, mostly following Next steps instructions,
+but put it under jon/Documents
+
+jon@LOCKE ~
+$ cd Documents/
+
+jon@LOCKE ~/Documents
+$ mkdir internet-python
+
+jon@LOCKE ~/Documents
+$ cd internet-python
+
+jon@LOCKE ~/Documents/internet-python
+$ pwd
+/c/Users/jon/Documents/internet-python
+
+jon@LOCKE ~/Documents/internet-python
+$ ls
+
+jon@LOCKE ~/Documents/internet-python
+$ ls -a
+.  ..
+
+jon@LOCKE ~/Documents/internet-python
+$ git init
+Initialized empty Git repository in c:/Users/jon/Documents/internet-python/.git/
+
+
+jon@LOCKE ~/Documents/internet-python (master)
+$ touch README
+
+jon@LOCKE ~/Documents/internet-python (master)
+$ ls
+README
+
+jon@LOCKE ~/Documents/internet-python (master)
+$ ls -l
+total 0
+-rw-r--r--    1 jon      Administ        0 Jan 16 21:06 README
+
+jon@LOCKE ~/Documents/internet-python (master)
+$ git add README
+
+jon@LOCKE ~/Documents/internet-python (master)
+$ git commit -m "first commit: add internet-python/README"
+[master (root-commit) 446ee96] first commit: add internet-python/README
+ 0 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 README
+
+jon@LOCKE ~/Documents/internet-python (master)
+$ git remote add origin git@github.com:jon-jacky/internet-python.git
+
+jon@LOCKE ~/Documents/internet-python (master)
+$ git push origin master
+Counting objects: 3, done.
+Writing objects: 100% (3/3), 235 bytes, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To git@github.com:jon-jacky/internet-python.git
+ * [new branch]      master -> master
+
+Then click continue on the repository page.  It shows empty README.
+
+Next: edit readme and commit again (or whatever). 
+
+Then, check out repo on VM, Create socket-projects directory.  Begin
+to populate it by just copying client and server from dropbox and
+running them on VM.
+
+Find tutorials Google: git version control tutorial
+
+https://git.wiki.kernel.org/index.php/GitSvnCrashCourse
+https://git.wiki.kernel.org/index.php/GitCheatSheet
+
+This has links to several others, also summary right there on this page
+
+http://help.github.com/git-cheat-sheets/
+
+
+And man pages (each command linked here)
+
+http://www.kernel.org/pub/software/scm/git/docs/
+
+So, the basic idea is that the repository is *right there in your
+working directory*, in .git - that's a whole (local) repository.  Then
+you can create a repository elsewhere with git clone, then push to
+another repository or pull from another repository.
+
+git add, git commit etc. apply to the local repository, much like svn.
+git clone, git push, git pull apply to another repository.
+
+Look at the commands above - that 
+
+git remote add origin
+git push origin master
+
+Oh, master is local repository, origin is upstream repository 
+
+git push, git pull are push to/pull from origin
+
