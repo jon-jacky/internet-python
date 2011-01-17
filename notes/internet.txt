@@ -215,3 +215,37 @@ Oh, master is local repository, origin is upstream repository
 
 git push, git pull are push to/pull from origin
 
+So, we should be able to edit README, commit, then push, and it should
+show up on github.
+
+(edit README)
+
+$ git diff
+(shows diffs in README)
+
+$ git status
+... modified README
+
+jon@LOCKE ~/Documents/internet-python (master)
+$ git commit -a -m "add some text to README"
+[master 6466d18] add some text to README
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+jon@LOCKE ~/Documents/internet-python (master)
+$ git status
+# On branch master
+nothing to commit (working directory clean)
+
+Refresh github page, nothing new
+
+jon@LOCKE ~/Documents/internet-python (master)
+$ git push
+Counting objects: 5, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 325 bytes, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To git@github.com:jon-jacky/internet-python.git
+   446ee96..6466d18  master -> master
+
+Now github page shows revised README commit message and contents
