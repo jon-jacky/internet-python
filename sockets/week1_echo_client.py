@@ -1,6 +1,6 @@
 import socket 
 
-host = ''
+host = 'localhost'
 port = 50000 
 size = 1024 
 s = socket.socket(socket.AF_INET, 

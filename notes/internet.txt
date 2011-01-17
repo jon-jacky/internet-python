@@ -330,4 +330,18 @@ Next, clone on vm, run server there, run client in local git master.
 
 see if svn is running on vm, so we can do svn log pager there.
  
-...
+
+17 Jan 2011
+
+Try week1_echo_client/server.py from dropbox on HP notebook as localhost.
+
+Run server: windows firewall blocks, I have to unblock.
+Run client, fails, 'request address is not valid...', host is ''
+
+In client change host to 'localhost', ditto server.
+Must close cmd window to kill server, it doesn't respond to ^C
+
+Dropbox server version currently just responds "foobar", not with echo, fix.
+Now it works as it should.  Commit and push.
+
+

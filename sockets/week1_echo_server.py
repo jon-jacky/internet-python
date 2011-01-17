@@ -1,7 +1,7 @@
 import socket
 import time
 
-host = '' 
+host = 'localhost' 
 port = 50000
 backlog = 5 
 size = 1024 
@@ -11,10 +11,9 @@ s.bind((host,port))
 s.listen(backlog) 
 while True: 
     client, address = s.accept()
-    # data = client.recv(size)
-    data = "foobar"
+    data = client.recv(size)
+    # data = "foobar"
     if data: 
-        client.send(data)
-        
+        client.send(data)  
     client.close()
 
