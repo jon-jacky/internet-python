@@ -1,4 +1,4 @@
-% notes on Brian's Python + Intenet course
+% notes on Brian's Python + Internet course
 
 16 Jan 2010
 
@@ -9,9 +9,9 @@ Create dropbox account
 
 firstname: Jonathan
 lastname: Jacky
-email: jon@u.washington.edu
-pw: 100153nbj
-Computer name: locke
+email: ...
+pw: ...
+Computer name: ...
 
 2GB free
 Typical setup
@@ -36,8 +36,8 @@ Just set up github acct on their web page.
 https://github.com/signup/free
 
 Username jon-jacky
-email jon@u.washington.edu
-password 100153nbj
+email ...
+password ...
 
 Created public profile
 
@@ -51,9 +51,9 @@ I have downloads\git with msysGit-netinstall...exe from 5/13/2010
 
 Brian got me a VM at bluebox, see email today (16 Jan 2010)
 
-username: jon
-password: jon@uwe
-hostname: block115406-urm.blueboxgrid.com
+username: ...
+password: ...
+hostname: ...
 
 Use putty to connect, Tully's
 Connect to Brian's portable wifi-over-cellphone, name giraffe, pw crazyawesome
