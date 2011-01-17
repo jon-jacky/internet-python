@@ -249,3 +249,41 @@ To git@github.com:jon-jacky/internet-python.git
    446ee96..6466d18  master -> master
 
 Now github page shows revised README commit message and contents
+
+(mkdir notes, cp internet.txt into notes)
+
+$ git add notes
+
+$ git status 
+
+$ git commit -a -m "add notes ..."
+
+(add more text)
+
+jon@LOCKE ~/Documents/internet-python/notes (master)
+$ git status
+# On branch master
+# Changed but not updated:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#       modified:   internet.txt
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+
+jon@LOCKE ~/Documents/internet-python/notes (master)
+$ git commit -a -m "revise notes/internet.txt"
+[master fc2cf83] revise notes/internet.txt
+ 1 files changed, 34 insertions(+), 0 deletions(-)
+
+jon@LOCKE ~/Documents/internet-python/notes (master)
+$ git push
+Counting objects: 9, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (8/8), 3.22 KiB, done.
+Total 8 (delta 1), reused 0 (delta 0)
+To git@github.com:jon-jacky/internet-python.git
+   6466d18..fc2cf83  master -> master
+
+Now look on web page
