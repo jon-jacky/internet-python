@@ -330,3 +330,4 @@ Next, clone on vm, run server there, run client in local git master.
 
 see if svn is running on vm, so we can do svn log pager there.
  
+...
