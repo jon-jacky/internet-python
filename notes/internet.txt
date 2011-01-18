@@ -425,3 +425,9 @@ Looked at http://groups.google.com/group/uwpython2010/topics?hl=en
 lots of people are having difficulties with dropbox and git.
 
 In local git, .../internet-python/sockets/ on HP, make sum_server,client.py
+minimal versions based on echo sample with hardcoded localhost, port 50000,
+numbers 1 2.  Works.
+
+git commit, git push, on vm git pull.  They're there and they work.
+Now make versions where host, port, numbers are cmd line args
+also write progress messages to console from both client and server.
