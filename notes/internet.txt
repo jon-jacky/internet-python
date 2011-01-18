@@ -431,3 +431,54 @@ numbers 1 2.  Works.
 git commit, git push, on vm git pull.  They're there and they work.
 Now make versions where host, port, numbers are cmd line args
 also write progress messages to console from both client and server.
+Then git commit -a -m ...; git push
+
+Now git pull on vm.  Start server there.
+
+
+Now on my own machine, try to run client:
+
+
+C:\Users\jon\Documents\internet-python\sockets>python sum_client.py block115406-
+urm.blueboxgrid.com 50000
+Traceback (most recent call last):
+  File "sum_client.py", line 38, in <module>
+    s.connect((host,port))
+  File "<string>", line 1, in connect
+socket.error: [Errno 10061] No connection could be made because the target machi
+ne actively refused it
+
+Server echoes nothing.  Maybe it doesn't like that port number?  Try
+8080 on server.  No, still "actively refused" connection requests.
+
+Try both client and server on vm localhost also.  Yes, that works.
+
+Is a firewall running?  Google finds page that says ufw is the default
+firewall for ubuntu:
+
+https://help.ubuntu.com/community/UFW
+
+But 
+
+$ sudo ufw status
+sudo: ufw: command not found
+
+Is it something else like ipfw?  Yes, looking at bluebox support page
+
+https://boxpanel.bluebox.net/public/the_vault/index.php/Main_Page
+
+points to 
+
+https://boxpanel.bluebox.net/public/the_vault/index.php/Firewall_Configuration
+
+They're using iptables for firewall.  Try iptables --help.  Then try
+ iptables --list or --list-rules, get: "... Permission denied: you must be root"
+
+Okay, that's enough for tonight.
+
+
+
+
+
+
+

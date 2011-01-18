@@ -1,1 +1,12 @@
-Projects for the course, Internet Programming in Python, Winter 2011
+Exercises and projects for the course, Internet Programming in Python, Winter 2011
+
+The solution to the first week's assignment is in the sockets
+directory, sum_client.py and sum_server.py.  They both work on my own
+laptop and on the bluebox vm when they both run on the same host,
+using host 'localhost'.  However when I run the server on the bluebox
+vm I cannot connect from the client running on my own laptop:
+
+socket.error: [Errno 10061] No connection could be made because the
+target machine actively refused it
+
+This looks likes a firewall problem I haven't solved yet.
