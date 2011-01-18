@@ -445,8 +445,7 @@ Traceback (most recent call last):
   File "sum_client.py", line 38, in <module>
     s.connect((host,port))
   File "<string>", line 1, in connect
-socket.error: [Errno 10061] No connection could be made because the target machi
-ne actively refused it
+socket.error: [Errno 10061] No connection could be made because the target machine actively refused it
 
 Server echoes nothing.  Maybe it doesn't like that port number?  Try
 8080 on server.  No, still "actively refused" connection requests.
@@ -477,8 +476,54 @@ They're using iptables for firewall.  Try iptables --help.  Then try
 Okay, that's enough for tonight.
 
 
+18 Jan 2011
 
+Can we sudo ... ?
 
+ $ sudo iptables --list
+Chain INPUT (policy ACCEPT)   
+target  pro opt source          destination
 
+Chain FORWARD (policy ACCEPT)
+... the same ...
 
+Chain OUTPUT (policy ACCEPT)
+...
+
+So it looks like there aren't any rules - this isn't the problem.
+
+$ sudo iptables --list-rules
+-P INPUT ACCEPT
+-P FORWARD ACCEPT
+-P OUTPUT ACCEPT
+
+That's all ...
+
+Now this morning I start server on vm and try connecting through Allegro wifi:
+
+C:\Users\jon\Documents\internet-python\sockets>python sum_client.py jon@block115
+406-urm.blueboxgrid.com 50000
+Traceback (most recent call last):
+  File "sum_client.py", line 38, in <module>
+    s.connect((host,port))
+  File "<string>", line 1, in connect
+socket.gaierror: [Errno 11003] getaddrinfo failed
+
+So this looks like *another* problem, I suspect the router here at the
+Allegro won't let socket traffic through.
+
+JC got his working where he used the bluebox hostname (not localhost) on the *server* side.
+
+Yes, this works, run server on VM:
+
+ $ python sum_server.py "block115406-urm.blueboxgrid.com"
+...
+
+run client on laptop:
+
+ > python sum_client.py block115406-urm.blueboxgrid.com 50000 8 7
+Send numbers: 8.0 7.0
+Receive sum: 15.0
+
+It works! Thanks to Jon Crump.
 

@@ -1,5 +1,3 @@
-Exercises and projects for the course, Internet Programming in Python, Winter 2011
-
 The solution to the first week's assignment is in the sockets
 directory, sum_client.py and sum_server.py.  To run both server and
 client on the same machine, use default host 'localhost'
@@ -14,4 +12,3 @@ server on the VM:
 Use this command to connect to the server from a client on another machine:
 
  > python sum_client.py block115406-urm.blueboxgrid.com 50000 8 7
-
