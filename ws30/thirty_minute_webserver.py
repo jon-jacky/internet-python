@@ -1,3 +1,5 @@
+# Modified for in-class lab exercise 18 Jan 2011
+# support time/ URL
 #
 # ws30 -- the thirty minute web server
 # author: Wilhelm Fitzpatrick (rafial@well.com)
@@ -16,6 +18,7 @@
 #
 
 import os, socket, sys
+import time
 
 defaults = ['127.0.0.1', '8080']
 mime_types = {'.jpg' : 'image/jpg', 
@@ -62,6 +65,16 @@ DIRECTORY_LISTING =\
 
 DIRECTORY_LINE = '<a href="%s">%s</a><br>'
 
+# add for exercise, could make this much prettier ...
+TIME_PAGE =\
+"""<html>
+<head><title>Time</title></head>
+<body>
+%s
+</body>
+</html>
+"""
+
 def server_socket(host, port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((host, port))
@@ -99,6 +112,10 @@ def get_file(path):
 def get_content(uri):
     print 'fetching:', uri
     try:
+        # This case added for in-class lab exercise
+        if uri == '/time/':
+            return (200, 'text/html', TIME_PAGE % time.asctime())
+
         path = '.' + uri
         if os.path.isfile(path):
             return (200, get_mime(uri), get_file(path))
