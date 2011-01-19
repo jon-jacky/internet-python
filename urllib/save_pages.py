@@ -1,6 +1,6 @@
 """
-write a file with contents of each web page identified in file,
-each line in file has one url
+read a text file with a single URL on each line and 
+save the contents of each to a file
 """
 
 import sys
