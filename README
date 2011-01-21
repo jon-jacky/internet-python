@@ -1,6 +1,16 @@
 Exercises and projects for the course, Internet Programming in Python, Winter 2011
 
-The solution to the first week's assignment is in the sockets
+Week 2: The solution to the assignment is in the ws30 directory.
+To demonstrate on localhost, start the server from the directory 
+above internet_python like this:
+
+ C:\Users\jon\Documents>python internet-python\ws30\thirty_minute_webserver.py
+
+then point a browser on running on the host at this URL:
+
+ http://localhost:8080/internet-python/ws30/print_time.py
+
+Week 1: The solution to the first week's assignment is in the sockets
 directory, sum_client.py and sum_server.py.  To run both server and
 client on the same machine, use default host 'localhost'
 
