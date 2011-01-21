@@ -118,7 +118,17 @@ def get_content(uri):
 
         path = '.' + uri
         if os.path.isfile(path):
-            return (200, get_mime(uri), get_file(path))
+            
+            # This case added for week 2 assignment
+            if path.split('.')[-1] == 'py': # it's a .py file
+                pd = os.popen('python %s' % path)
+                page = pd.read()
+                pd.close()
+                return (200, 'text/html', page)
+
+            # just display other files
+            else:
+                return (200, get_mime(uri), get_file(path))
         if os.path.isdir(path):
             if(uri.endswith('/')):
                 return (200, 'text/html', list_directory(uri))
@@ -133,7 +143,7 @@ def get_mime(uri):
 
 def send_response(stream, content):
     stream.write(response[content[0]] % content[1:])
-
+    
 if __name__ == '__main__':
     args, nargs = sys.argv[1:], len(sys.argv) - 1
     host, port = (args + defaults[-2 + nargs:])[0:2]
