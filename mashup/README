@@ -1,0 +1,37 @@
+Mashup project for week 3.  
+
+Use BeautifulSoup to get links and annotations from my links page:
+
+http://staff.washington.edu/jon/links.html
+
+use an API to put links with captions and tags derived
+from the annotations onto my bookmarks page at delicious.com:
+
+http://www.delicious.com/jackyj
+
+Install API from http://code.google.com/p/pydelicious/
+
+Use it to create a bookmark on delicious by typing into the python interpreter.
+
+>>> from pydelicious import DeliciousAPI; from getpass import getpass
+Feedparser not available, no RSS parsing.
+>>> pwd = getpass('Pwd:')
+Pwd:
+>>> a = DeliciousAPI('jackyj', pwd)
+>>> a
+DeliciousAPI(user)
+
+>>> a.tags_get()
+{'tags': [{'count': '1', 'tag': 'ai'}, {'count': '1', 'tag': 'business'}, {'coun
+...
+
+It worked! Try this ---
+
+>>> a.posts_add("http://staff.washington.edu/jon/links.html", "Interesting web s
+ites", extended="Here are some interesting sites that are not directly related t
+o my work or my teaching.", tags="search reference directories dictionaries thes
+auri current-events politics arts culture science research math logic engineerin
+g technology education graphics design programming software internet security pr
+ivacy miscellaneous toread")
+
+That worked too!  That bookmark is now on my delicious page.

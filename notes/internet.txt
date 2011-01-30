@@ -545,9 +545,14 @@ http://www.delicious.com/help/api
 
 Google turns up a few Python wrappers for their API, not from Google,
 but they haven't been maintained for a few years...  One is just for
-getting stuff off delicious, not for putting stuff on.  Another one
-warns that it doesn't work with current delicious authorization
-scheme, bah.
+getting stuff off delicious, not for putting stuff on.  
+
+http://www.michael-noll.com/projects/delicious-python-api/
+
+Another one warns that it doesn't work with current delicious
+authorization scheme, bah.
+
+http://code.google.com/p/pydelicious/
 
 Investigate delicious replacements to see if any have a friendlier
 python API.  According to MeFi and HN, the most popular one might be
@@ -563,7 +568,7 @@ to sign up.  Not much - $9.21 - but no good for experimenting.  And,
 their API is just a copy of delicious', they even link to the
 delicious API page!
 
-http://pinboard.in/howto/
+http://pinboard.in/howto/#api
 
 Then there's Google Bookmarks.  
 
@@ -585,3 +590,112 @@ http://www.google.com/support/bookmarks/bin/answer.py?answer=178166
 that is, in Firefox import bookmarks (page of HTML) and then just use
 a tool to upload that to Google Bookmarks, no doubt delicious
 etc. provide something similar.
+
+Years ago I recall I created a delicious account but never posted
+anything.  Indeed, there is http://www.delicious.com/jacky/ "Jacky has
+not bookmarks .. yet!"  Log in as jackyj with usual pw - it works!
+"Hi, jackyj".  Click "save a bookmark", enter http://staff.washington.edu/jon/
+Add tags: people UW work  Notes: My home page at the University of Washington
+But nothing shows up on Jacky's Bookmarks page, refresh page ... nothing.
+Give it some time.
+
+Oh, I have to click on bookmarks, then I have the one I just posted, also
+three from 23 Oct 04: Phile Agre, Peter Norvig, Paul Graham.  
+This is at http://www.delicious.com/jackyj not /jacky.  When I sign in again 
+as jackyj, I see my pages.
+
+Can I use an API to post a page?  Let's try pydelicious, from Google
+Code or PyPI.  Download pydelicious-0.6.zip from 
+http://code.google.com/p/pydelicious/downloads/list
+extract to to C:\downloads\pydelicious\pydelicious-0.6, read README.rst there.
+
+ > python setup.py install
+... apparently succeeds ...
+
+Then back in my own dirs:
+
+C:\Users\jon\Documents\internet-python>python
+Python 2.6.2 (r262:71605, Apr 14 2009, 22:40:02) [MSC v.1500 32 bit (Intel)] on
+win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from pydelicious import DeliciousAPI
+Feedparser not available, no RSS parsing.
+>>> dir()
+['DeliciousAPI', '__builtins__', '__doc__', '__name__', '__package__']
+>>> dir(DeliciousAPI)
+['__doc__', '__init__', '__module__', '__repr__', 'bundles_all', 'bundles_delete
+', 'bundles_set', 'get_method', 'get_url', 'paths', 'posts_add', 'posts_all', 'p
+osts_dates', 'posts_delete', 'posts_get', 'posts_recent', 'posts_update', 'reque
+st', 'request_raw', 'tags_delete', 'tags_get', 'tags_rename']
+>>>
+
+Looks like we got it.  README.rst has example of using it from python cmd.
+Also there's a shell dlcs - how do we run that?
+
+C:\Python26\Lib\site-packages\pydelicious 
+
+has only __init__.py and .pyc.  But we also have
+
+C:\downloads\pydelicious\pydelicious-0.6\tools\dlcs.py
+
+Try it:
+
+C:\downloads\pydelicious\pydelicious-0.6\tools>python dlcs.py
+Feedparser not available, no RSS parsing.
+No JSON decoder installed
+Traceback (most recent call last):
+  File "dlcs.py", line 1202, in <module>
+    _main()
+  File "dlcs.py", line 1196, in _main
+    sys.exit(main(sys.argv[1:]))
+  File "dlcs.py", line 380, in main
+    opts['username'] = os.getlogin()
+AttributeError: 'module' object has no attribute 'getlogin'
+
+C:\downloads\pydelicious\pydelicious-0.6\tools>python
+Python 2.6.2 (r262:71605, Apr 14 2009, 22:40:02) [MSC v.1500 32 bit (Intel)] on
+win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import os
+>>> dir(os)
+... 
+, 'extsep', 'fdopen', 'fstat', 'fsync', 'getcwd', 'getcwdu', 'getenv', 'getpid',
+...
+
+But no getlogin.  So it looks like we can't run dlcs on Windows.
+
+Okay, what about running the API from the shell like in the README.rst.
+
+>>> from pydelicious import DeliciousAPI; from getpass import getpass
+Feedparser not available, no RSS parsing.
+>>> pwd = getpass('Pwd:')
+Pwd:
+>>> a = DeliciousAPI('user', pwd)
+>>> a
+DeliciousAPI(user)
+>>> a.tags_get()
+Traceback (most recent call last):
+ ...
+ ... lots omitted ...
+ ...
+  File "C:\Python26\lib\site-packages\pydelicious\__init__.py", line 182, in htt
+p_error_401
+    raise PyDeliciousUnauthorized, "Check credentials."
+pydelicious.PyDeliciousUnauthorized: Check credentials.
+>>>
+
+Oh dear.  Am I running into this problem, noted on 
+http://code.google.com/p/pydelicious/
+
+IMPORTANT: pydelicious has not been updated to use the OAuth
+protocol. New users with a Yahoo account/email will not be able to use
+this library.
+
+Oh, no, I was meant to put my own username instead of 'user'
+
+>>> a = DeliciousAPI('jackyj', pwd)
+>>> a.tags_get()
+{'tags': [{'count': '1', 'tag': 'ai'}, {'count': '1', 'tag': 'business'}, {'coun
+...
+
+It worked!
