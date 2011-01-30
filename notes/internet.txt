@@ -527,3 +527,61 @@ Receive sum: 15.0
 
 It works! Thanks to Jon Crump.
 
+
+29 Jan 2011
+
+Looking for mashup project for week 3.  Thought I might use
+BeautifulSoup to get links and annotations from my links.html, use an
+API to put links with captions and tags derived from annotations on
+delicious.
+
+Delicious might be going away soon, but this is just an exercise - if
+we get this working we might use another site.
+
+Delicious' API page describes an HTTP API - how to construct URLS with
+&'s etc., gahh...  
+
+http://www.delicious.com/help/api
+
+Google turns up a few Python wrappers for their API, not from Google,
+but they haven't been maintained for a few years...  One is just for
+getting stuff off delicious, not for putting stuff on.  Another one
+warns that it doesn't work with current delicious authorization
+scheme, bah.
+
+Investigate delicious replacements to see if any have a friendlier
+python API.  According to MeFi and HN, the most popular one might be
+Pinboard.  
+
+http://searchyc.com/delicious+replacement
+
+http://ask.metafilter.com/173315/stumbleupon-any-other-delicious-magnolias-lately
+
+Pinboard calls their site "antisocial bookmarking - social bookmarking
+for introverts ... a low-noise bookmarking site".  Cute, but it costs
+to sign up.  Not much - $9.21 - but no good for experimenting.  And,
+their API is just a copy of delicious', they even link to the
+delicious API page!
+
+http://pinboard.in/howto/
+
+Then there's Google Bookmarks.  
+
+https://www.google.com/bookmarks/l
+
+But it's not listed at the Google API page
+
+http://code.google.com/more/table/
+
+there is apparently no published API, this guy reverse-engineered some of it.
+
+http://www.mmartins.com/mmartins/googlebookmarksapi/
+
+Maybe this isn't such a good project idea anyway - there is a
+supported way to import bookmarks.  
+
+http://www.google.com/support/bookmarks/bin/answer.py?answer=178166
+
+that is, in Firefox import bookmarks (page of HTML) and then just use
+a tool to upload that to Google Bookmarks, no doubt delicious
+etc. provide something similar.
