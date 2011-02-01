@@ -1,6 +1,13 @@
 Exercises and projects for the course, Internet Programming in Python, Winter 2011
 
-Week 3: Work on the assignment is in the mashup directory.
+Week 3: mashup directory: use BeautifulSoup to extract links and other
+information from
+
+ http://staff.washington.edu/jon/links.html
+
+the use pydelicious (Python API for delicious.com) to store them at
+
+ http://www.delicious.com/jackyj
 
 Week 2: The solution to the assignment is in the ws30 directory.
 To demonstrate on localhost, start the server from the directory 

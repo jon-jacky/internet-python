@@ -699,3 +699,189 @@ Oh, no, I was meant to put my own username instead of 'user'
 ...
 
 It worked!
+
+
+It worked! Try this ---
+
+>>> a.posts_add("http://staff.washington.edu/jon/links.html", "Interesting web s
+ites", extended="Here are some interesting sites that are not directly related t
+o my work or my teaching.", tags="search reference directories dictionaries thes
+auri current-events politics arts culture science research math logic engineerin
+g technology education graphics design programming software internet security pr
+ivacy miscellaneous toread")
+
+That worked too!  That bookmark is now on my delicious page.
+
+30 Jan 2011
+
+Now let's work on the BeautifulSoup side. First let's get the page into Python:
+
+C:\Users\jon\Documents\internet-python\mashup>python
+...
+>>> fd = open("..\..\www\links.html")
+>>> page = fd.read()
+>>> len(page)
+297346
+>>> print page[0:20]
+<html>
+<head>
+<link
+>>>
+
+The page is large but we can print selected parts, as above.  The
+print statement observes linebreaks.
+
+This page is so large, let's write a script that just uploads links i:j.
+That way we can check/demo in small increments, not the whole file at once.
+Also have a switch to TURN OFF actual upload, for testing and trials.
+
+We want all the href links that are http not #... internal links.  we
+want the link attributes in href="..." not the link text between
+open/close tag.
+
+Each link appears in a paragraph.  Use the text at the beginning of
+the paragraph (before the first href) as the extended=... arg. to
+posts_add.  For tags, I'd like to use each word that appears in an h2,
+h2, ... tag (down to ).  Except the words in notag (split on space):
+
+notag "the and but a always other more also works in a category by themselves"
+
+Then if tags are empty ("in a category by themselves") use "miscellaneous"
+
+Some phrases will be unavoidably split: "Search engines" "Current
+events" "Graduate school".  Possibly put second tag word in notage:
+"engines events".  Yes.
+
+First with BeautfulSoup, see if we can just print out all the <h2>,<h3>,<p>,
+and <href>.  Read how:
+
+ http://www.crummy.com/software/BeautifulSoup/documentation.htm
+
+>>> from BeautifulSoup import BeautifulSoup
+>>> soup = BeautifulSoup(page)
+
+>>> print soup.findAll(h2)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'h2' is not defined
+
+Huh?  I just copied their example.  I had this problem in class too...
+DOH!  It's findAll not findall
+
+>>> soup.findAll('h2')
+[<h2>Interesting web sites</h2>, <h2><a name="dir">
+Search engines, directories, and reference works</a></h2>, <h2><a name="words">W
+ords: dictionaries, thesauri, and more</a></h2>, <h2><a name="news">Current even
+...
+...]
+>>> hrefs = soup.findAll('href')
+>>> len(hrefs)
+0
+
+href is not a tag, 'a' is the tag: <a href=... ...>...</a>
+
+>>> pars = soup.findAll('p')
+>>> len(pars)
+647
+>>> as = soup.findAll('a')
+  File "<stdin>", line 1
+    as = soup.findAll('a')
+     ^
+SyntaxError: invalid syntax
+>>> anchors = soup.findAll('a')
+>>> len(anchors)
+2144
+
+Wow! I have ~ 2000 links! (some of those are href="#..." internal links)
+
+We want do do depth-first traverse of whole page and case branch on
+each element, only elements that matter are h2, h3, p, a
+
+ if tag == h2:
+   keywords = get_keywords(h2.contents) # what delicious calls tags
+   keywords.insert(0, []) # dummy h3 
+ elif tag == h3: 
+   keywords.pop() 
+   keywords.insert(0, get_keywords(h3.contents))
+ elif tag == p:
+   extended = get_description(p.contents)
+ elif tag = a and href and http:
+   upload_link(a.link, extended, keywords)
+
+Need logic in here to control whether/how many links to send
+
+This script should also handle svn diff output, so we could incrementally
+upload new additions.
+
+BeautifulSoup handles tag attributes like dictionary keys:
+
+>>> soup.find('a')
+<a href="http://staff.washington.edu/~jon/">my work</a>
+>>> anchor = soup.find('a')
+>>> anchor['href']
+u'http://staff.washington.edu/~jon/'
+>>> anchor.attrs
+[(u'href', u'http://staff.washington.edu/~jon/')]
+>>> anchor.contents
+[u'my work']
+
+That u'...' is because BeautifulSoup treats all strings as Unicode.
+
+>>> para  = soup.find('p')
+>>> para
+<p>
+Here are some interesting sites that are not directly related to
+<a href="http://staff.washington.edu/~jon/">my work</a> or
+<a href="http://staff.washington.edu/jon/python-course/">my teaching</a>.
+<!--
+(<a href="http://academic.evergreen.edu/curricular/fofc00/">etc.</a>)
+-->
+</p>
+>>> para.attrs
+[]
+>>> para.contents
+[u'\nHere are some interesting sites that are not directly related to\n', <a hre
+f="http://staff.washington.edu/~jon/">my work</a>, u' or\n', <a href="http://sta
+ff.washington.edu/jon/python-course/">my teaching</a>, u'.\n', u'\n(<a href="htt
+p://academic.evergreen.edu/curricular/fofc00/">etc.</a>)\n', u'\n']
+>>> para.contents[0]
+u'\nHere are some interesting sites that are not directly related to\n'
+
+>>> h2=soup.find('h2')
+>>> h2
+<h2>Interesting web sites</h2>
+>>> h2.contents
+[u'Interesting web sites']
+>>> h2.contents[0]
+u'Interesting web sites'
+
+>>> h3=soup.find('h3')
+>>> h3
+<h3><a name="news-now">Now</a></h3>
+>>> h3.contents
+[<a name="news-now">Now</a>]
+
+Right, h2 and h3 contents aren't the contents of the subsection, just
+the tag itself between <hi>...</hi>.  IN the h3 case the contents
+isn't a string, it's another tag, the 'a' tag.  Oh dear, I've got
+those in some but not all h2 and h3, and also in some p, makes them
+irregular.  This would turn into a typical scraper with lots of
+special case handling ...
+
+"For your convenience, if a tag has only one child node, and that
+child node is a string, the child node is made available as
+tag.string, as well as tag.contents[0]."
+
+>>> h2.string
+u'Interesting web sites'
+>>> anchor.string
+u'my work'
+>>> para.string
+>>> h3.string
+>>>
+
+So we could have 'if elt.string: ...' for typical case
+
+How to traverse...
+
+
