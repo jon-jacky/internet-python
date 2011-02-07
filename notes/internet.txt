@@ -744,7 +744,7 @@ the paragraph (before the first href) as the extended=... arg. to
 posts_add.  For tags, I'd like to use each word that appears in an h2,
 h2, ... tag (down to ).  Except the words in notag (split on space):
 
-notag "the and but a always other more also works in a category by themselves"
+notag = "the and but a always other more also works in a category by themselves"
 
 Then if tags are empty ("in a category by themselves") use "miscellaneous"
 
@@ -882,6 +882,226 @@ u'my work'
 
 So we could have 'if elt.string: ...' for typical case
 
-How to traverse...
+How to traverse?  It looks like the h2, h3, and p are all siblings, I
+think we want nextSibling.  Or next just gets to the tag that appears
+next in the html, not in tree.   Try it:
 
+>>> t = h2
+>>> for i in range(10):
+...     print 'TAG',
+...     print t
+...     t = t.nextSibling
+...
+TAG <h2>Interesting web sites</h2>
+TAG
+
+TAG <p>
+Here are some interesting sites that are not directly related to
+<a href="http://staff.washington.edu/~jon/">my work</a> or
+<a href="http://staff.washington.edu/jon/python-course/">my teaching</a>.
+<!--
+(<a href="http://academic.evergreen.edu/curricular/fofc00/">etc.</a>)
+-->
+</p>
+TAG
+
+TAG <a href="#dir">Search engines, directories, reference</a>
+TAG <br />
+TAG
+
+(... etc. ...)
+
+For some reason, line breaks are treated as tags:
+
+>>> h2 = soup.find('h2')
+>>> h2
+<h2>Interesting web sites</h2>
+>>> t = h2.nextSibling
+>>> t
+u'\n'
+>>> print t
+
+>>>
+
+But never mind, we can just skip those.  It seems if we find the first
+h2 then traverse by nextSibling, just handling h2, h3, and p tags, we
+should get everything we want.  In the p tags, get the string and then
+all the children, among those handle the 'a' tags with "http:" (but
+not "#") URLs.
+
+also add to notag: "here are some sites that are not directly related to"
+
+At Python class - JC notes that those siblings with just linebreaks might
+be NavigableString, not tag elements.
+
+>>> t
+u'\n'
+>>> type(t)
+<class 'BeautifulSoup.NavigableString'>
+
+How do you tell what type a tag is?
+
+>>> h2
+<h2>Interesting web sites</h2>
+>>> type(h2)
+<class 'BeautifulSoup.Tag'>
+>>> print h2
+<h2>Interesting web sites</h2>
+...
+
+What methods are available?
+
+dir(t)
+... name ...
+
+>>> t.name
+u'p'
+>>> t.name == 'p'
+True
+
+>>> t.contents[0]
+u'\nHere are some interesting sites that are not directly related to\n'
+>>> print t.contents[0]
+
+
+ 5 Feb 2011
+
+JC recommended lxml instead of BeautifulSoup, newer, better documented, even
+includes element tree and even beautiful soup.
+
+Set that all aside for now, do this week's assignment:
+
+- get Apache running on VM
+- get cgi_test.py running on apache on VM, check by browsing to URL
+- write CGI program for assignment, test with check_assignment.py
+
+
+ 6 Feb 2011
+
+Review uwpython_web/week04/week04_slides.pdf
+
+screen  63 -- 65
+
+github popularity 82, workflow 85 
+
+Other vc`s hosting sites: bitbucket (hg), canonical (bzr), launchpad
+(Ubuntu): 83
+
+apache config in /etc/apache2/... 92
+
+assignment 118
+
+Create jon\vm.bat to log into vm.  Then ps -ax shows apache2 is
+running.  Can we just run cgi-test.
+
+Get Brian's class notes and sample code into ~/uwpython_web
+
+ git clone git://github.com/briandorsey/uwpython_web.git
+
+So, where's cgi-bin?  Where's document root?
+
+Google Ubuntu apache2 (VM runs ubuntu 10.04.1 LTS)
+
+Google finds Ubuntu docs, a little poking around finds these key ones:
+
+https://help.ubuntu.com/10.04/ 
+
+https://help.ubuntu.com/10.04/serverguide/C/
+
+and on apache:
+
+https://help.ubuntu.com/10.04/serverguide/C/httpd.html
+
+Also download serverguide.pdf into Documents\ubuntu.  html version is
+actually easier to navigate.
+
+Says /usr/lib/cgi-bin   Copy cgi_test.py into it.  Yes, it shows up
+at:
+
+http://block115406-urm.blueboxgrid.com/cgi-bin/cgi_test.py
+
+Later, at the Top Pot - putty to vm
+
+Now I have to figure out how to write my own cgi program that deals
+with URLs like 
+
+ http://URL?a=123&b=321 - 
+
+Bah, ssh to vm is slow - not very practical to edit/debug there.
+Better to run CGI server locally - does my apache installation still
+work?
+
+yes, http://localhost/ still works.  Where's my cgi-bin directory?
+Look up old apache install notes in hp-notes/hp-reinstall.txt 
+Look under C:\Program Files\Apache Software Foundation\Apache2.2\htdocs
+Ah, there's also an Apache2.2\cgi-bin with printenv.pl
+
+http://localhost/cgi-bin/printenv.pl.
+
+Then I get 500 Internal server error, bah.  Oh, the perl path in the
+hashbang seems to e wrong.  Let's copy the cgi_test program.  Must
+'run as administrator'.  Have to replace hashbang: #!C:\Python26\python.exe
+
+Okay, now I'm working on json_adder.py, put it in Apache2.2\cgi-bin -
+it asks me what program to open it with - ?  But it just run
+cgi_test.py, why?  cgi_test.py starts with import cgi - but I think
+this message comes *before* cgi invokes Okay, then change file
+contents so it *doesn't* start with import cgi, but copy to file with
+different name cgi_test_save .  
+
+Ah, it has to say Content-type: text/plain', not text-normal or text-json
+
+Also, when not connected to wifi, browser automatically goes to 'work
+offline' so browser won't load new page version but also won't
+complain on refresh - must UNcheck Work Offline even to access
+http://localhost/
+
+Now figure out how to get those those ?a=... arguments from URL:
+
+Try:
+
+args = cgi.FieldStorage()
+
+print 'a = %s' % args['a'].value
+
+Also import cgitb, then cgitb.enable()
+
+Fails with KeyError 'a' - am I using the wrong fcn?
+It's not from a form, but from url.
+
+print 'args: %s' % args
+
+shows
+
+args: FieldStorage(None, None, [])
+
+Maybe we should use urlparse.urlparse then urlparse.parse_qs
+
+How do we get the URL?  Get QUERY_STRING from envt, 
+
+Oh, just get QUERY_STRING from os.environment, then pass QUERY_STRING
+to urlparse.parse_qs  BUT 
+
+query = os.getenv('QUERY_STRING')
+print 'query: %s' % query
+
+prints only query:, empty query string
+
+print os.environ has 'QUERY_STRING':''
+
+Oh, forgot to include query string in URL - now it works!  In header,
+change text/plain to text/json.  Now it works:
+
+C:\Users\jon\Documents\internet-python\cgi>python check_assignment.py  "http://l
+ocalhost/cgi-bin/json_adder.py"
+======================================================================
+Checking the URL: http://localhost/cgi-bin/json_adder.py?a=104&b=53
+Passing numbers: 104 and 53
+Check: uwnetid
+Check: time
+Check: result
+Check: result (type)
+Check: result (value)
+======================================================================
+Looks good!  Turn it in!
 

@@ -1,5 +1,26 @@
 Exercises and projects for the course, Internet Programming in Python, Winter 2011
 
+Week 4: cgi directory: json_adder.py is a Python CGI program that gets
+two arguments from the query string in the URL, adds them, then
+reports the results, along with other information, in JSON format.
+Invoke the program by:
+
+ http://URL?a=123&b=321 
+
+(or any other two numbers at a and b).  I have tested with URL
+
+localhost/cgi-bin/jason_adder.py 
+
+(with my local Apache server under Windows) and on the VM at
+
+ http://block115406-urm.blueboxgrid.com/cgi-bin/json_adder.py
+
+I have tested the program by 
+
+ python check_assignment.py "URL"
+
+with both of the above URLs
+
 Week 3: mashup directory: use BeautifulSoup to extract links and other
 information from
 
@@ -8,6 +29,8 @@ information from
 the use pydelicious (Python API for delicious.com) to store them at
 
  http://www.delicious.com/jackyj
+
+This project is not finished.
 
 Week 2: The solution to the assignment is in the ws30 directory.
 To demonstrate on localhost, start the server from the directory 
