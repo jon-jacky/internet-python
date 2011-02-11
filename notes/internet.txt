@@ -1105,3 +1105,98 @@ Check: result (value)
 ======================================================================
 Looks good!  Turn it in!
 
+Change hashbang and install on vm, by git commit; push here then git
+pull there, then copy to /usr/lib/cgi-bin
+
+Also works at VM:
+
+C:\Users\jon\Documents\internet-python\cgi>python check_assignment.py  "http://b
+lock115406-urm.blueboxgrid.com/cgi-bin/json_adder.py"
+======================================================================
+Checking the URL: http://block115406-urm.blueboxgrid.com/cgi-bin/json_adder.py?a
+=199&b=82
+Passing numbers: 199 and 82
+Check: uwnetid
+Check: time
+Check: result
+Check: result (type)
+Check: result (value)
+======================================================================
+Looks good!  Turn it in!
+
+
+ 7 Feb 2011
+
+mkdir internet-python\wsgi, download test.wsgi from this link on course page:
+
+http://hg.moinmo.in/moin/1.8/raw-file/tip/wiki/server/test.wsgi
+
+Run it, point browser at http://localhost:8000/  - it works!
+Table of wsgi info appers in browser window.
+
+C:\Users\jon\Documents\internet-python\wsgi>python test.wsgi
+Running test application - point your browser at http://localhost:8000/ ...
+locke - - [07/Feb/2011 17:28:52] "GET / HTTP/1.1" 200 6251
+locke - - [07/Feb/2011 17:28:53] "GET /favicon.ico HTTP/1.1" 200 6232
+locke - - [07/Feb/2011 17:28:56] "GET /favicon.ico HTTP/1.1" 200 6262
+
+So this is not runnig via our Apache - its running the standalone server
+in the Python library.  wsgi.test includes this code:
+
+        from wsgiref import simple_server
+        print "Running test application - point your browser at http://localhost:8000/ ..."
+        httpd = simple_server.WSGIServer(('', 8000), simple_server.WSGIRequestHandler)
+        httpd.set_app(application)
+        httpd.serve_forever()
+    except ImportError:
+        # wsgiref not installed, just output html to stdout
+        for content in application({}, lambda status, headers: None):
+            print content
+
+So we must have wsgiref.  Yes, it's part of standard library.
+
+
+10 Feb 2011
+
+Working through WSGI setup on bluebox VM, following instructions on 
+week05_slides.pdf.  We have to follow instructions *exactly*.  I tried:
+
+.../etc/init.d$ sudo apache2 restart
+... apache2 help appears ...
+... must use -k before restart ...
+
+.../etc/init.d$ sudo apache2 -k restart
+apache2: bad username ${APACHE_RUN_USER}
+
+Okay, let's just copy slide verbatim:
+
+$ sudo /etc/init.d/apache2 restart
+ * Restarting web server apache2
+ ... waiting 
+
+Just as promised.  What's different about giving whole path?
+
+BUT - I'm still getting 404 when I try URL:
+
+http://block115406-urm.blueboxgrid.com/wsgi_test.py
+
+Look again at apache config files - they conform to slides.
+
+Is there some *other* config? 
+
+I have to get this going if I want to do the exercise in wsgi - 
+I guess I better install CherryPy.  Or I can just use wsgiref.
+See if we can do wsgiref rather than apache on vm.
+
+Remember our problem with apache2 restart - did we follow all the
+other commands *exactly* ?
+
+Later - let's leave this.  Can we rig up wsgiref to run a wsgi_test
+(or anything else?)  This is essential for our no-dependencies web app.
+
+To see how, Look at test.wsgi linked to course web page, which uses wsgiref.
+
+Let's build a wsgirunner.py which imports the module named on its command
+line and runs it in wsgiref.  Done.
+
+
