@@ -1296,3 +1296,14 @@ past import, now complains about progress print statements
 IOError: sys.stdout access restricted by mod_wsgi.
 
 Fine, let's comment out all print statments.
+
+NOW we get 404, / does not exist on this server.
+Oh, so all the url path hacking we did yesterday doesn't apply here - 
+Here PATH_INFO must begin *after* 'books'  Let's  try books/id1.
+Right, 404 /id1 does not exist on this server.
+
+Bah. We'd have to rewrite the conditions at the start of each branch.
+So books.py sees *different* path depending on whether it's running
+under wsgirunner or apache2 mod_wsgi on vm.  Ideally we should handle
+that in wsgirunner, but no time now.  For now, honor is satisfied by our
+wsgirunner running on vm.
