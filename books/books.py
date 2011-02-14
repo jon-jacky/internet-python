@@ -55,14 +55,15 @@ def application(environ, start_response):
     host = environ['HTTP_HOST']
     pathstr = environ['PATH_INFO']
     path = pathstr.split('/')
-    print 'pathstr "%s"' % pathstr
+    # apache2 mod_wsgi raises IOError if you print to stdout
+    # print 'pathstr "%s"' % pathstr
     path = [ name for name in path if name ] # eliminate ''
-    print 'path entries %s' % path
+    # print 'path entries %s' % path
     if path:
         home_dir = path[0]
         home_url = '%s/%s' % (host, home_dir)
-        print 'home_dir %s' % home_dir
-        print 'home_url %s' % home_url
+        # print 'home_dir %s' % home_dir
+        # print 'home_url %s' % home_url
 
     # index page 
     if path and len(path) == 1 and home_dir == 'books':
