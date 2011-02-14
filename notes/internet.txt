@@ -1202,3 +1202,83 @@ line and runs it in wsgiref.  Done.
 
 11 Feb 2011
 
+JC solves my VM WSGI problem - recall the line in 
+
+/etc/apache2/sites-available/default
+
+is 
+
+WSGIScriptAlias /wsgi_test /usr/local/wsgi-­‐scripts/wsgi_test.py
+
+so the URL of the application is 
+
+http://block115406-urm.blueboxgrid.com/wsgi_test
+
+NOT wsgi_test.py, which is what I was trying --- which didn't work.
+
+JC asks, is there anything like cgitb for wsgi?
+
+JC asks, how do you pass a PYTHONPATH to wsgi?
+
+
+13 Feb 2011
+
+Got books.py web application running under my wsgirunner on localhost.
+
+git push, git pull on VM.  Try running with wsgirunner on vm.
+Yes, that works too.
+
+ http://block115406-urm.blueboxgrid.com:8080/books/
+
+Now try running it via Apache on VM.  Copy books.py and bookdb.py
+into /usr/local/wsgi-scripts, chmod 755 on both.
+
+Then in /etc/apache2/sites-available/default add line
+
+WSGIScriptAlias /books /usr/local/wsgi-scripts/books.py
+
+Restart apache
+
+ http://block115406-urm.blueboxgrid.com/books
+
+That gets a 500 Internal Server Error.  My first guess is a PYTHONPATH
+problem so it can't import bookdb.  How do we find the log?  It's /var/log... ?
+Also, what's happening to progress messages from print statements?
+
+Right, 
+
+ .../var/log$ sudo tail apache2/error.log
+
+Mon Feb 14 ...  
+
+Traceback
+/usr/local/wsgi-scripts/books.py  line 7
+import bookdb
+ImportError: No module named bookdb
+
+What if I just add bookdb.py to sites-available/default?  Then it
+might get imported on startup, then it will be in collection of
+imported modules when books imports it.
+
+Restart, error.log  says 
+
+... caught SIGTERM, shutting down
+[Mon Feb 14 17:00:29 2011] ... Python 2.6.5 configured -- resuming normal operations
+
+It's 9AM so this must be GMT
+
+Try to load page again - browser shows 500 Internal Server Error again.
+error.log says ImportError again.  The sequence of error messages is
+(abbreviated because I can't cut-paste from putty window
+
+mod-wsgi (pid=9924): Target WSGI script '/usr/local/wsgi-scripts/books.py' cannot be loaded as Python mdoule.
+
+mod-wsi (pid=9924): Exception occurrred processing WSGI script '/usr/local/wsgi-scripts/books.py'
+Tracebck (most recent call last):
+File "/usr/local/wsgi-scripts/books.py", line 7, in <module>
+import bookdb
+ImportError: No module named bookdb
+
+Google: python apache2 mod_wsgi ImportError.  First several hits are about Django.
+There are various apache config things to try, also apache apparently has something called
+wsgi_handler.py, or is that Django-specific?  Bah.
