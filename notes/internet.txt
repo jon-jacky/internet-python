@@ -1282,3 +1282,6 @@ ImportError: No module named bookdb
 Google: python apache2 mod_wsgi ImportError.  First several hits are about Django.
 There are various apache config things to try, also apache apparently has something called
 wsgi_handler.py, or is that Django-specific?  Bah.
+
+Let's *hard-code* path into books.py itself on the vm. Of course this will be *totally* nonportable.  
+Let's do it in git working directory here on laptop, then push it, pull on vm, then uncomment.

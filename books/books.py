@@ -3,6 +3,11 @@ Books database web application - week05 assignment
 
 Raw WSGI, no framework
 """
+import sys
+
+# uncomment this line to run via apache mod_wsgi on bluebox vm
+# needed for import below
+# sys.path.append('/usr/local/wsgi-scripts')
 
 import bookdb
 
