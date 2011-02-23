@@ -1307,3 +1307,92 @@ So books.py sees *different* path depending on whether it's running
 under wsgirunner or apache2 mod_wsgi on vm.  Ideally we should handle
 that in wsgirunner, but no time now.  For now, honor is satisfied by our
 wsgirunner running on vm.
+
+15 Feb 2011
+
+JC says you can set path with this line at top leve l in
+/etc/apache2/sites-available/default
+
+WSGIPythonPath /usr/local/wsgi-scripts/
+
+See http://code.google.com/p/modwsgi/wiki/ConfigurationDirectives
+
+JC recommends supervisord (sic, note terminal 'd', recommended by to
+him by Brian) for managing persistent processes - easier to deal with
+than screen.
+
+There's a whole issue with "index URLs" that do (or don't) end with /.
+See CherryPy tutorial on "index methods".  Many sites redirect URLs
+that don't end in '/' to URL that looks the same except it ends with
+'/'.
+
+
+18 Feb 2011
+
+Download and install Django-1.2.5.tar.gz, follow directions on course
+web page for week 7, also Django install page
+http://www.djangoproject.com/download/
+
+Download to C:\downloads\django, then gzip -d ... then tar xvf ...,
+lots of stuff!   setup.py is under new Django dir.  Run cmd as admin:
+
+ > cd Django-1.2.5 
+ > python setup.py install
+...
+... 
+copying django\contrib\sitemaps\templates\sitemap_index.xml -> C:\Python26\Lib\s
+ite-packages\django\contrib\sitemaps\templates
+running install_egg_info
+Writing C:\Python26\Lib\site-packages\Django-1.2.5-py2.6.egg-info
+
+Yes, it's all under .../site-packages/...
+
+ > python
+...
+>>> import django
+>>> django.get_version()
+'1.2.5'
+>>>
+
+Yep, we're ready.
+
+
+20 Feb 2011
+
+Hints from JC - how to show subprocess tree:
+
+On Linux/Ubuntu: ps axjf
+
+On Mac OS X: pstree (from macports)
+
+Brian (paraphrase):
+
+Yes, Django is really oriented toward CMS.  It was originally created
+to support a newspaper site.
+
+Django is a huge help when you have a lot of content that *other
+people* update.  Also, the admin interface is a huge help.
+
+Also the Django prefab code for authentication etc. is a huge help.
+
+"I have a database background so in general I don't like ORMs but this
+one is very well integrated" - if you use the Django way to define the
+database, then it works with the admin interface etc.
+
+In Django you can escape the ORM and write a method that makes a
+particular SQL query.
+
+Zope object database is a standalone object database in Python - very
+mature - not relational - can be used without Zope/Plone CMS.
+
+Recent postgres versions have "Common Table Expressions" CTE for
+writing recursive queries for hierarchical data - (that are
+*represented* as tables?)
+
+B. says SQLAlchemy is a nice Python interfact to db - you can pass through
+
+JC is using PyschoPG (?) to access postgress through Python.
+
+B: SQLite is fine for small-to-medium sites but limitation is 
+multiple users - it locks at the table level to ensure ACID - but 
+that's a big performance hit.  SQLite is included - no configuration.
