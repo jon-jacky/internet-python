@@ -1507,3 +1507,20 @@ says maybe not.  There is a django-nonrel branch working on support
 for MongoDB and other non-relational dbs.  You can't join, but most
 other operations work.  Also, he recalls there is a model base class
 you can inherit.
+
+
+ 6 Mar 2011
+
+BD mentions that you can link to static files through a Django app, but
+Django doesn't have to serve them at all.  Instead, you can edit the Apache
+.conf file so that requests for files in (say) an image directory are
+intercepted and served and never get to Django at all.  In fact, a web
+app might use Django, PHP, ... running in parallel to serve different
+files and pages.
+
+
+ 7 Mar 2011
+
+JC using Django debug tool finds SQL EXPLAIN statement ... 
+
+
