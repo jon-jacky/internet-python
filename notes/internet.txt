@@ -1524,3 +1524,189 @@ files and pages.
 JC using Django debug tool finds SQL EXPLAIN statement ... 
 
 
+ 8 Mar 2011
+
+Windows won't boot - in safe boot, hangs at crccheck.sys.
+
+Ubuntu boots fine - let's get a working environment going.  Intall git,
+see hp-ubuntu-install.txt
+
+
+Next - need to clone Brian's uwpython repository to get slides etc.
+my own git repository for work in progress.
+
+internet.txt, notes from class, says this worked:
+
+$ git clone https://github.com/jon-jacky/internet-python.git
+
+Try it.  It worked, got it, but then I copied over notes/internet.txt
+from Windows, did 
+
+jon@hp-laptop:~/internet-python/notes$ git commit -a -m "internet.txt: recent notes"
+[master 1c988ae] internet.txt: recent notes
+ Committer: Jonathan Jacky <jon@hp-laptop.(none)>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly:
+
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+
+If the identity used for this commit is wrong, you can fix it with:
+
+    git commit --amend --author='Your Name <you@example.com>'
+
+ 1 files changed, 1526 insertions(+), 1509 deletions(-)
+
+Then:
+
+jon@hp-laptop:~/internet-python/notes$ git status
+# On branch master
+# Your branch is ahead of 'origin/master' by 1 commit.
+#
+nothing to commit (working directory clean)
+
+Then:
+
+jon@hp-laptop:~/internet-python$ git status
+# On branch master
+# Your branch is ahead of 'origin/master' by 1 commit.
+#
+nothing to commit (working directory clean)
+jon@hp-laptop:~/internet-python$ git push
+error: Cannot access URL https://github.com/jon-jacky/internet-python.git/, return code 22
+fatal: git-http-push failed
+
+I think it's because my username etc. from this account aren't right.
+Defer this.  Let's try to get Brian's course page.  internet.txt
+advises:
+
+ git clone git://github.com/briandorsey/uwpython_web.git
+
+That works.
+
+Now try hibernate (but make sure all emacs buffers written out first)
+
+Later - do the recommended git-config --global commends, but git push
+still fails.
+
+jon@hp-laptop:~/internet-python$ git push
+error: Cannot access URL https://github.com/jon-jacky/internet-python.git/, return code 22
+fatal: git-http-push failed
+
+
+ 9 Mar 2011
+
+JC mentions git clone --bare ...   Creates a repository with no files
+that you can still clone from ... He recalls he saw it on Stack Overflow.
+
+
+11 Mar 2011
+
+Back to Git.  Why can't I push back to github from my just-cloned
+internet-python repository on my laptop Linux.  See above, error:
+Cannot access URL ... return code 22 ... fatal: git-http-push failed
+
+jon@hp-laptop:~/internet-python/.git$ git config -l
+user.name=jon-jacky
+user.email=jon@u.washington.edu
+...
+
+Note that this is not in ./git/config.  Is this what should be in
+there?  Does this have to agree with what's on github?  jon-jacky is
+my github username/id, is that what's needed here?  
+
+Compare to repository on laptop Windows side - that worked.  
+
+Another git puzzle - couldn't pull from BD's respository into my
+cloned copy - see internet.txt 22 Feb 2011.
+
+More puzzles - on laptop running ubuntu/linux, in internet-python dir
+in Windows file system, git status -s shows loads of M files, 
+but in linux file system, git stats -s show only internet.txt is M.
+Are the files different, or is something else different (the state of
+the index or whatever)?
+
+Reading up in http://gitref.org/...  Some notes:
+
+git config -l  lists configuration, more info than in .git/config
+
+git status -s is short form, similar to svn st without options.
+
+git add <file> just file to index (staging area) of filesn to be
+committed on next commit.  You even have to add files that were
+committed before.  What gets committed is the state of the file when
+you did git add, not its state when you do git commit.  So you have
+more control over what gets committed than in svn etc.  in git status -s, 
+AM means file was modified after git add.
+
+git diff shows what has changed since last commit that is not yet staged.
+
+git diff --cached shows what contents have been staged, what changes
+will go into next commit.
+
+git diff HEAD shows difference between working directory and last
+commit, ignoring staging.
+
+git reset HEAD -- <file> unstages a file from the index.  It reverts
+the staging area.
+
+12 Mar 2011
+
+More reading in gitref.org
+
+git commit -a    Alternative to git add on before each commit, like svn
+commit, commits any file that is tracked (was in last commit).  Still
+must use git add ... to start tracking new files, just like svn.
+
+git log  show chronological list of parents
+git log --oneline  more compact
+git log --oneline --graph   shows diagram of branching,merging
+
+git tag can retroactively tag a commit, give commit id (hash) in command.
+
+git remove -v  shows remote repository aliases and URLs, 'master' branch
+and 'origin' remote repository aliases are conventional.
+
+If there are changes in remote you can't push, must fetch/merge (pull)
+before you can push.
+
+From help.github.com 
+
+For all their examples they use this form of URL for remote:
+
+ git@github.com:username/reponame.git
+
+They don't show the https-style URL.
+
+git config -l  in my recently cloned internet-python repo shows https: protocol.
+git remote -v  shows the same.
+
+But in my original internet-python repo in the Windows file system,
+git remote -v shows  git@github: protocol.  Yes, see 8 Mar above,
+we used git clone https:...  which was probably just wrong.
+
+For our recently cloned repository (from BD) uwpython, git remote -v shows
+git@github: protocol also, that's what we used in clone command.
+
+Let's rename local repository to internet-python.save, git clone
+git@github.com:jon-jacky/internet-python.git internet, copy over
+internet.txt from here, then try to push.
+
+Also, is user.name supposed to be jon-jacky (my git username) or
+something else?  help.github.com has example:
+
+ git config --global user.name "Firstname Lastname"
+
+which is different from "username"
+
+git config --global info applies to all repos, use without global to
+apply to particular repo.  So, what should user.name be?  Can we see
+at github site?  In Windows installation?  Yes, on linux side there is
+~/.gitconfig with name = jon-jacky and email.  Look on Windows side.
+There is Users/jon/.gitconfig with name = jon-jacky.  So that should be ok.
+
+Before git clone again, use git status, git log, git diff in present
+internet-python linux repo.   Then google that error message again.
+
+
