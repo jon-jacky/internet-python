@@ -1709,4 +1709,39 @@ There is Users/jon/.gitconfig with name = jon-jacky.  So that should be ok.
 Before git clone again, use git status, git log, git diff in present
 internet-python linux repo.   Then google that error message again.
 
+Google: git push error "Cannot access URL" "code 22" git-http-push failed
 
+http://stackoverflow.com/questions/3947530/git-push-fatal-failed
+
+as I suspected, can't push from a repository cloned with http.
+This post says you can fix it by changing https://github.com/ 
+to git@github.com:   Done.  But now:
+
+jon@hp-laptop:~/internet-python$ git push
+Permission denied (publickey).
+fatal: The remote end hung up unexpectedly
+
+Do I have to go through all the ssh stuff again?  Review help.github.com
+
+In ~/.ssh I only have known_hosts, no id_rsa, no config
+
+Follow help.github.com directions, this time provide passphrase.
+
+On github, in Account SSH Public Keys: 
+Title: hp notebook ubuntu
+Key: ... (opened it in emacs and pasted it in, maybe it added linebreaks...
+
+Now I have keys tekkub@gmail.com (?) and hp notebook ubuntu I got
+tekkub when I just hit RET with no passphrase, see above.  Maybe I
+should delete it?
+
+Try new one:
+
+jon@hp-laptop:~/internet-python$ ssh git@github.com
+
+... GUI prompts for 'password' - my linux account password doesn't work,
+but the ssh passphrase does work  ....
+
+PTY allocation request failed on channel 0
+Hi jon-jacky! You've successfully authenticated, but GitHub does not provide shell access.
+          Connection to github.com closed.
