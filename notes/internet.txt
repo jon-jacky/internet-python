@@ -1745,3 +1745,68 @@ but the ssh passphrase does work  ....
 PTY allocation request failed on channel 0
 Hi jon-jacky! You've successfully authenticated, but GitHub does not provide shell access.
           Connection to github.com closed.
+
+Now try push:
+
+jon@hp-laptop:~/internet-python$ git push
+Counting objects: 15, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (9/9), done.
+Writing objects: 100% (12/12), 10.12 KiB, done.
+Total 12 (delta 6), reused 0 (delta 0)
+To git@github.com:jon-jacky/internet-python.git
+   fd609d1..d41466f  master -> master
+
+Yayy!
+
+Check my github account page, it's there:
+
+https://github.com/jon-jacky/internet-python/blob/master/notes/internet.txt
+
+Now let's logon VM and see if we can pull.
+
+$ ssh jon@block115406-urm.blueboxgrid.com
+...
+jon@block115406-urm:~/internet-python$ git status
+# On branch master
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	books/bookdb.pyc
+#	books/books.pyc
+#	wsgi/testwsgi.pyc
+nothing added to commit but untracked files present (use "git add" to track)
+
+try short form
+
+jon@block115406-urm:~/internet-python$ git status -s
+?? books/bookdb.pyc
+?? books/books.pyc
+?? wsgi/testwsgi.pyc
+
+I should probably set up gitignore ...  Try pull
+
+jon@block115406-urm:~/internet-python$ git pull
+remote: Counting objects: 27, done.
+remote: Compressing objects: 100% (18/18), done.
+remote: Total 24 (delta 12), reused 0 (delta 0)
+Unpacking objects: 100% (24/24), done.
+From https://github.com/jon-jacky/internet-python
+   892402e..d41466f  master     -> origin/master
+Updating 892402e..d41466f
+Fast-forward
+ notes/internet.txt | 3045 ++++++++++++++++++++++++++++++----------------------
+ 1 files changed, 1747 insertions(+), 1298 deletions(-)
+
+Got it, look at contents with tail ...   It's right.
+
+Okay, so I've got git/github/bluebox all working on hp notebook ubuntu.
+
+In uwpython_web$  git pull
+...
+unpacking objects: ... takes a long time, wifi led blinking blue/orange ...
+
+Wow, this is really taking a long time, has been going (blinking) for
+around 10 minutes ...  But we got week9_slides.pdf and .key - together > 86 MB.
+
+What's the command like svn st -uv that compares local repository to origin?
