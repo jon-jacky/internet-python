@@ -1810,3 +1810,46 @@ Wow, this is really taking a long time, has been going (blinking) for
 around 10 minutes ...  But we got week9_slides.pdf and .key - together > 86 MB.
 
 What's the command like svn st -uv that compares local repository to origin?
+Or any remote repository?  Something to investigate once we've made changes.
+
+
+13 Mar 2011
+
+Create new uwpython_spring repository at github, initially with just
+README and index.html.
+
+Create uwpython_spring repo from github dashboard
+
+mkdir uwpython_spring
+
+(populate with index.html derived from my course3.html and also a README)
+
+git init
+
+git add index.html
+
+git add README
+
+git commit -m "..."
+
+git remote add origin git@github:jon...
+
+(should be ...github.com:jon...)
+
+git push
+ssh: could not resolve hostname github...
+fatal: ...
+
+git remote add origin ...gihub.com ....
+fatal: remote origin already exists
+
+git remote rm origin
+
+git remote add origin ...github.com...
+
+git push
+error: failed to push some refs...
+
+git push origin master
+... (succeeds) ...
+
